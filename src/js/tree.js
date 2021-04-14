@@ -5,10 +5,12 @@
         return this.className && this.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
     };
 
+    //添加class
     HTMLElement.prototype.addClass = function (cls) {
         if (!this.hasClass(cls)) this.className += " " + cls;
     };
 
+    //删除class
     HTMLElement.prototype.removeClass = function (cls) {
         if (this.hasClass(cls)) {
             var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
@@ -20,6 +22,7 @@
         this.className = '';
     };
 
+    //toggle() 方法用于绑定两个或多个事件处理器函数，以响应被选元素的轮流的 click 事件
     HTMLElement.prototype.toggleClass = function (cls) {
         if (this.hasClass(cls)) {
             this.removeClass(cls);
@@ -55,13 +58,14 @@
      * 可选的信息包括：icon、 toggle、 children，如：{name: '小说', icon: 'icon-file', toggle: true, children: [{name: '巴黎圣母院'},{name: '哈姆雷特'}]}
      *
      */
-
-    /**
+    /*title*/
+    /*
      * 添加子节点
      * @param {Object} cNode: 子节点
      * @param {Object} pNode: 父节点
      *
      */
+    //
      Tree.prototype.getJsonFiles = function(jsonPath , maxDeep = 3) {
         const fs = require('fs');
         const path = require('path');
@@ -74,10 +78,10 @@
             let stat = fs.statSync(fPath);
             if (stat.isDirectory() === true) {
               let children = findJsonFile(fPath , deep + 1);
-              jsonFiles.push({"name": path.basename(fPath) , "children" : children });
+              jsonFiles.push({"name": path.basename(fPath) , "children" : children , "path":fPath});
             }
             if (stat.isFile() === true) {
-              jsonFiles.push({"name": path.basename(fPath) });
+              jsonFiles.push({"name": path.basename(fPath) ,"path":fPath });
             }
           });
           return jsonFiles;
@@ -117,6 +121,7 @@
             }
             nodeEle._node = cNode[i];
             // 绑定事件
+          //  console.log(cNode[i]);
             bindEvent(this, cNode[i], nodeEle);
             // 递归
             this.appendNode(cNode[i].children, cNode[i], hasPush);
