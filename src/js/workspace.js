@@ -177,7 +177,7 @@
 
     tree.on('dbclick', openDoc);
 
-    function openDoc(forced) {
+    function openDoc(forced) {              //打开文件功能
         if (tree.currentNode.children) {
             tree.toggle(tree.currentNode);
             return;

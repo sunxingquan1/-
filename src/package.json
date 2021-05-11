@@ -1,5 +1,8 @@
 {
-  "name"    : "NiceMark",
-  "version" : "0.1.0",
-  "main"    : "main.js"
+  "name": "NiceMark",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
 }

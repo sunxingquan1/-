@@ -101,7 +101,38 @@
 
     /*编辑相关*/
     editor.bold = function () {
-        appendSymmetricInlineChar("**");
+        //appendSymmetricInlineChar("**");
+        const { BrowserWindow } = require('electron').remote
+        const win = new BrowserWindow({ width: 800, height: 600 })
+        const {shell}=require('electron').shell;
+        
+        var win1 = new BrowserWindow({
+            width: 1200,
+            height: 800,
+            frame: false,
+            defaultFontSize: 16,
+            minWidth: 1200,
+            minHeight: 800,
+            //icon: path.join(__dirname, 'img/icon.png'),
+            defaultMonospaceFontSize: 16,
+            defaultEncoding: "utf-8",
+            webPreferences: {
+                plugins: true,
+                nodeIntegration: true,
+                contextIsolation: false,
+                enableRemoteModule:true,
+            }
+        });
+    
+        win1.loadURL(`file://${__dirname}/demo.html`);
+    
+        win1.webContents.openDevTools();
+    
+        win1.on('closed', () => {
+            win1 = null;
+        });
+        let href=`file://${__dirname}/demo.html`
+        shell.openExternal(href);
     };
 
     editor.italic = function () {
