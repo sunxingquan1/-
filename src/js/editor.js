@@ -100,8 +100,7 @@
     };
 
     /*编辑相关*/
-    editor.bold = function () {
-        //appendSymmetricInlineChar("**");
+    editor.graph = function(){
         const { BrowserWindow } = require('electron').remote
         const win = new BrowserWindow({ width: 800, height: 600 })
         const {shell}=require('electron').shell;
@@ -133,6 +132,9 @@
         });
         let href=`file://${__dirname}/demo.html`
         shell.openExternal(href);
+    }
+    editor.bold = function () {
+        appendSymmetricInlineChar("**");
     };
 
     editor.italic = function () {

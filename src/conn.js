@@ -6,6 +6,14 @@ conn = mysql.createConnection({
     database: blogdb,
     port: 3306   //MySQL 的默认端口号
 });
+
+conn.connect();
+conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+    if (error) throw error;
+    console.log('The solution is: ', results[0].solution);
+  });
+
+/*
 conn.connect(function(err){
     if(err){
         console.log(err.code);
@@ -30,3 +38,4 @@ $query = "SELECT * from user_info";
       connection.end(function () {
         // The connection has been closed
       });
+*/
