@@ -96,13 +96,10 @@
     oAlignRadioGroup.onselect = function (i) {
         oPreview.style.textAlign = aligNArray[i];
     };
-
     // 处理链接
-
     function handleLink(href, title, text) {
         return '<a href="' + href + '" title="' + title + '" onclick="return preview.openExternal(href)">' + text + '</a>'
     }
-
     // 代码高亮
     function highlight(code, language) {
         if (language == 'auto') {

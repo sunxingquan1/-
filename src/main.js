@@ -1,9 +1,9 @@
 const electron = require('electron');
 const path = require('path');
+const { removeListener } = require('process');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const mysql = require('./mysql/module')
-
 
 const { ipcMain } = electron
 // arg = 'data1' || 'data2'
@@ -14,7 +14,9 @@ ipcMain.on("requestGetData", (event, arg) => {
     });
 })
 
-function openWindow() {
+
+global.shareObject = {}
+function openWindow(event , arg) {
     let pluginName;
     switch (process.platform) {
         case 'win32':
@@ -47,14 +49,18 @@ function openWindow() {
             enableRemoteModule:true,
         }
     });
-
-    win.loadURL(`file://${__dirname}/index.html`);
+    var util = require('util');
+    arg.page = arg.page || 'index.html'
+    url = util.format('file://%s/%s' , __dirname , arg.page  )
+    win.loadURL(url);
 
     win.webContents.openDevTools();
 
     win.on('closed', () => {
         win = null;
     });
+    global.shareObject[arg.page] = win.webContents.id
+    return win;
 }
 
 app.on('ready', openWindow);

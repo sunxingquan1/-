@@ -7,6 +7,9 @@ conn = mysql.createConnection({
     port: 3306   //MySQL 的默认端口号
 });
 
+
+
+
 conn.connect();
 conn.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
     if (error) throw error;

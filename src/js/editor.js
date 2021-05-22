@@ -1,3 +1,4 @@
+var editor = {};
 (function () {
 
     const fs = require('fs');
@@ -8,9 +9,9 @@
     var oEditor = document.getElementById('editor');
     const dialog = require('electron').remote.dialog;
     const remote = require('electron').remote;
-    var editor = {};
-    var path = null;
 
+    var path = null;
+    
     var codeMirror = CodeMirror(oEditor, {
         mode: 'gfm',
         lineNumbers: true,
@@ -408,8 +409,18 @@
             utils.showToast("保存成功!");
             if (callback instanceof Function) callback();
         });
+        save2database(doc.getValue());
     }
-
+    function save2database(value){
+        var a=value.split(/[\n]/);
+        
+        const mysql = require('./mysql/module')
+        //var data=a[0]+","+a[1]+","+a[2]
+        var data = [ a[0], a[1], a[2] ]
+        console.log(a);
+        mysql.knowledgeInfo.addInfo(a);
+        //console.log(value);
+    }
     function call() {
         var args = Array.prototype.slice.call(arguments);
         var action = args[0];
@@ -429,3 +440,4 @@
     this.editor = editor;
 
 })();
+module.exports = editor;

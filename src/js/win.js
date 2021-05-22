@@ -1,13 +1,19 @@
+//const editor = require('./editor');
+
 (function () {
     console.log("enter win");
     console.log(require('electron'));
     const bw = require('electron').remote.getCurrentWindow();
     var shell = require('electron').shell;
+    const { ipcRenderer } = require('electron')
     var win = {};
 
     var oTitle = document.getElementById('titlebar-title');
     var oAboutDialog = document.getElementById('about-dialog');
 
+    ipcRenderer.on("requestOpenMdFile" , (event,arg)=>{
+        editor.readFile(arg);
+    })
     win.toogleFullScreen = function () {
         bw.setFullScreen(!bw.isFullScreen());
     };

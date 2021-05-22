@@ -15,18 +15,22 @@ ipcRenderer.on('responseData', (event, data) => {
 
 	initData(data);
 	console.log(data);
-	
 		var edge;
-		for(var i=0;i<data.length;i++){
-			edge = visgraph.addEdge({
-				source:data[i].Kname, //源点的ID
-				target:data[i].Kneighbor, //目标点ID
-				label: '', //关系标签
-				properties:{  //peroper标识扩展属性，可以自定义任意信息，自己做可视化过滤或者其他展示操作用
-					type:'type1',
-					desc:'备注信息'
-				}
-			});
+		for(var i=0 ; i<data.length ; i++){
+			var dest=data[i].Kneighbor.split(",");
+			var lab=data[i].Klabel.split(",");
+			for(var j=0 ; j<dest.length ; j++){
+				edge = visgraph.addEdge({
+					source:data[i].Kname, //源点的ID
+					target:dest[j], //目标点ID
+					label: lab[j], //关系标签
+					properties:{  //peroper标识扩展属性，可以自定义任意信息，自己做可视化过滤或者其他展示操作用
+						type:'type1',
+						desc:'备注信息'
+					}
+				});
+			}
+			
 	
 		}
 		//自定义单个连线的样式
@@ -38,11 +42,8 @@ ipcRenderer.on('responseData', (event, data) => {
 			edge.font= 'bola 12px 微软雅黑'; //连线字体大小
 			edge.fontColor= '100,100,200';//连线字体颜色
 			edge.alpha = 0.8; //连线透明度
-			edge.showArrow=false;//显示箭头
+			edge.showArrow=true;//显示箭头
 		}
-		
-	
-
 });
 
 
@@ -201,6 +202,13 @@ function initVisGraph(visDomId){
 				},
                 onClick : function(event,node){ //节点点击事件回调
                     console.log('点击节点----['+node.id+':'+node.label+']');
+					//ipcRenderer.send('requestOpenMdFile', node.id);	
+					//winEditor.webContents.send("requestOpenMdFile" , 'text.md');
+					const { ipcRenderer ,remote} = require('electron')
+					let shareObject = remote.getGlobal('shareObject')
+					win_id = shareObject['index.html']
+					ipcRenderer.sendTo(win_id,'requestOpenMdFile','file/'+node.id+".md")		
+					//editor.readFile('test.md');	
                 },
                 ondblClick:function(event,node){console.log('双击节点');},//节点双击事件
                 onMouseDown:function(event,node){console.log('鼠标按下节点');},//节点的鼠标按下事件
